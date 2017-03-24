@@ -5,6 +5,7 @@
   "LEDPin": 7,
   "messageMax": 256,
   "credentialPath": "~/.iot-hub",
+  "temperatureAlert": 30,
   "i2cOption": {
     "pin": 9,
     "i2cBusNo": 1,

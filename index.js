@@ -23,8 +23,9 @@ var client, config, messageProcessor;
 function sendMessage() {
   if (!sendingMessage) { return; }
   messageId++;
-  messageProcessor.getMessage(messageId, (content) => {
+  messageProcessor.getMessage(messageId, (content, temperatureAlert) => {
     var message = new Message(content);
+    message.properties.add('temperatureAlert', temperatureAlert ? 'true' : 'false');
     console.log('Sending message: ' + content);
     client.sendEvent(message, (err) => {
       if (err) {
