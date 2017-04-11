@@ -7,6 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const bi = require('az-iot-bi');
 const wpi = require('wiring-pi');
 
 const Client = require('azure-iot-device').Client;
@@ -114,6 +115,10 @@ function initClient(connectionStringParam, credentialPath) {
   wpi.setup('wpi');
   wpi.pinMode(config.LEDPin, wpi.OUTPUT);
   messageProcessor = new MessageProcessor(config);
+
+  bi.start()
+  bi.trackEvent('success');
+  bi.flush();
 
   // create a client
   // read out the connectionString from process environment
