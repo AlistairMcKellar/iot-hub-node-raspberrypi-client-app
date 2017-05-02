@@ -7,13 +7,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const bi = require('az-iot-bi');
 const wpi = require('wiring-pi');
 
 const Client = require('azure-iot-device').Client;
 const ConnectionString = require('azure-iot-device').ConnectionString;
 const Message = require('azure-iot-device').Message;
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
+
+const bi = require('az-iot-bi');
 
 const MessageProcessor = require('./messageProcessor.js');
 
