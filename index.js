@@ -119,12 +119,12 @@ function initClient(connectionStringParam, credentialPath) {
 
   bi.start();
   if(bi.isBIEnabled()) {
-    bi.trackEventWithoutInternalProperties('yes');
-    bi.trackEvent('success');
+    bi.trackEventWithoutInternalProperties('yes', {device:"RaspberryPi",language:"NodeJs"});
+    bi.trackEvent('success', {device:"RaspberryPi",language:"NodeJs"});
   }
   else
   {
-    bi.trackEventWithoutInternalProperties('no');
+    bi.trackEventWithoutInternalProperties('no', {device:"RaspberryPi",language:"NodeJs"});
   }
   bi.flush();
 
