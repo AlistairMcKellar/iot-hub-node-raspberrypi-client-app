@@ -117,8 +117,15 @@ function initClient(connectionStringParam, credentialPath) {
   wpi.pinMode(config.LEDPin, wpi.OUTPUT);
   messageProcessor = new MessageProcessor(config);
 
-  bi.start()
-  bi.trackEvent('success');
+  bi.start();
+  if(bi.isBIEnabled()) {
+    bi.trackEventWithoutInternalProperties('yes');
+    bi.trackEvent('success');
+  }
+  else
+  {
+    bi.trackEventWithoutInternalProperties('no');
+  }
   bi.flush();
 
   // create a client
