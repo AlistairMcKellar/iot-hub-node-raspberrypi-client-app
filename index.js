@@ -118,13 +118,14 @@ function initClient(connectionStringParam, credentialPath) {
   messageProcessor = new MessageProcessor(config);
 
   bi.start();
+  var deviceInfo = {device:"RaspberryPi",language:"NodeJS"};
   if(bi.isBIEnabled()) {
-    bi.trackEventWithoutInternalProperties('yes');
-    bi.trackEvent('success');
+    bi.trackEventWithoutInternalProperties('yes', deviceInfo);
+    bi.trackEvent('success', deviceInfo);
   }
   else
   {
-    bi.trackEventWithoutInternalProperties('no');
+    bi.trackEventWithoutInternalProperties('no', deviceInfo);
   }
   bi.flush();
 
