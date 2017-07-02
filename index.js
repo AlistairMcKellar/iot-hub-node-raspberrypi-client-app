@@ -9,6 +9,7 @@ const path = require('path');
 
 // wiring-pi is not upto date with wiring and kernel verions
 const wpi = require('wiringpi-node');
+const sleep = require('sleep');
 
 const Client = require('azure-iot-device').Client;
 const ConnectionString = require('azure-iot-device').ConnectionString;
@@ -74,8 +75,10 @@ function receiveMessageCallback(msg) {
 
 function blinkLED() {
   // Light up LED for 500 ms
+    console.log("on");
     wpi.digitalWrite(config.LEDPin, 1);
-    wpi.delay(500);
+    sleep.msleep(500);
+    console.log("off");
     wpi.digitalWrite(config.LEDPin, 0);
 }
 
@@ -117,6 +120,7 @@ function initClient(connectionStringParam, credentialPath) {
   wpi.pinMode(config.LEDPin, wpi.OUTPUT);
   var i = 0;
   while (i++ < 100) {
+      wpi.delay(500);
       blinkLED();
   }
   //messageProcessor = new MessageProcessor(config);
