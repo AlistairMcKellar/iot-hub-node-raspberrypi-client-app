@@ -10,7 +10,7 @@ const wpi = require('wiringpi-node');
 const sleep = require('sleep');
 
 function Sensor(options, wpi) {
-    this.wpi = wpi
+    wpi.setup('wpi');
     this.thermPin = options.ThermPin; //a pin
     this.capPin = options.CapPin; //b pin
 }
@@ -26,21 +26,22 @@ Sensor.prototype.read = function (callback) {
 }
 
 Sensor.prototype.discharge = function () {
-    this.wpi.pinMode(this.thermPin, wpi.INPUT);
-    this.wpi.pinMode(this.capPin, wpi.OUTPUT);
-    this.wpi.digitalWrite(this.capPin, 0);
-    this.wpi.delay(100);
+    wpi.pinMode(this.thermPin, wpi.INPUT);
+    wpi.pinMode(this.capPin, wpi.OUTPUT);
+    wpi.digitalWrite(this.capPin, 0);
+    wpi.delay(100);
 }
 
 Sensor.prototype.chargeTime = function () {
-    this.wpi.pinMode(this.thermPin, wpi.OUTPUT);
-    this.wpi.pinMode(this.capPin, wpi.INPUT);
-    console.log("pin status: " + this.wpi.digitalRead(this.capPin));
+    wpi.pinMode(this.thermPin, wpi.OUTPUT);
+    wpi.pinMode(this.capPin, wpi.INPUT);
+    console.log("pin status: " + wpi.digitalRead(this.capPin));
+    wpi.digitalWrite(this.thermPin, 1);
+    console.log("pin status: " + wpi.digitalRead(this.capPin));
 
-    this.wpi.digitalWrite(this.thermPin, 1);
     var t1 = Date.now();
-    while (!this.wpi.digitalRead(this.capPin)) {
-        console.log("looping: " + this.wpi.digitalRead(this.capPin));
+    while (!wpi.digitalRead(this.capPin)) {
+        console.log("looping: " + wpi.digitalRead(this.capPin));
     }
     var t2 = Date.now();
     var result = (t2 - t1) * 1000;
