@@ -74,10 +74,9 @@ function receiveMessageCallback(msg) {
 
 function blinkLED() {
   // Light up LED for 500 ms
-  wpi.digitalWrite(config.LEDPin, 1);
-  setTimeout(function () {
+    wpi.digitalWrite(config.LEDPin, 1);
+    wpi.delay(500);
     wpi.digitalWrite(config.LEDPin, 0);
-  }, 500);
 }
 
 function initClient(connectionStringParam, credentialPath) {
