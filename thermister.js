@@ -28,6 +28,7 @@ Sensor.prototype.read = function (callback) {
 }
 
 Sensor.prototype.discharge = function () {
+    console.log("discharge");
     wpi.pinMode(this.thermPin, wpi.INPUT);
     wpi.pinMode(this.capPin, wpi.OUTPUT);
     wpi.digitalWrite(this.capPin, 0);
@@ -44,7 +45,6 @@ Sensor.prototype.chargeTime = function () {
     var t1 = Date.now();
     console.log('t1: ' + t1);
     while (!wpi.digitalRead(this.capPin)) {
-        console.log("looping: " + wpi.digitalRead(this.capPin));
     }
     var t2 = Date.now();
     console.log('t2: ' + t2);

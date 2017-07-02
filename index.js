@@ -75,10 +75,8 @@ function receiveMessageCallback(msg) {
 
 function blinkLED() {
   // Light up LED for 500 ms
-    console.log("on");
     wpi.digitalWrite(config.LEDPin, 1);
-    sleep.msleep(500);
-    console.log("off");
+    wpi.delay(500);
     wpi.digitalWrite(config.LEDPin, 0);
 }
 
@@ -119,48 +117,44 @@ function initClient(connectionStringParam, credentialPath) {
   wpi.setup('wpi');
   wpi.pinMode(config.LEDPin, wpi.OUTPUT);
   var i = 0;
-  while (i++ < 100) {
-      wpi.delay(500);
-      blinkLED();
+  messageProcessor = new MessageProcessor(config);
+
+  bi.start();
+  var deviceInfo = {device:"RaspberryPi",language:"NodeJS"};
+  if(bi.isBIEnabled()) {
+    bi.trackEventWithoutInternalProperties('yes', deviceInfo);
+    bi.trackEvent('success', deviceInfo);
   }
-  //messageProcessor = new MessageProcessor(config);
+  else
+  {
+    bi.trackEventWithoutInternalProperties('no', deviceInfo);
+  }
+  bi.flush();
 
-  //bi.start();
-  //var deviceInfo = {device:"RaspberryPi",language:"NodeJS"};
-  //if(bi.isBIEnabled()) {
-  //  bi.trackEventWithoutInternalProperties('yes', deviceInfo);
-  //  bi.trackEvent('success', deviceInfo);
-  //}
-  //else
-  //{
-  //  bi.trackEventWithoutInternalProperties('no', deviceInfo);
-  //}
-  //bi.flush();
+  // create a client
+  // read out the connectionString from process environment
+  connectionString = connectionString || process.env['AzureIoTHubDeviceConnectionString'];
+  client = initClient(connectionString, config);
 
-  //// create a client
-  //// read out the connectionString from process environment
-  //connectionString = connectionString || process.env['AzureIoTHubDeviceConnectionString'];
-  //client = initClient(connectionString, config);
+  client.open((err) => {
+    if (err) {
+      console.error('[IoT hub Client] Connect error: ' + err.message);
+      return;
+    }
 
-  //client.open((err) => {
-  //  if (err) {
-  //    console.error('[IoT hub Client] Connect error: ' + err.message);
-  //    return;
-  //  }
-
-  //  // set C2D and device method callback
-  //  client.onDeviceMethod('start', onStart);
-  //  client.onDeviceMethod('stop', onStop);
-  //  client.on('message', receiveMessageCallback);
-  //  setInterval(() => {
-  //    client.getTwin((err, twin) => {
-  //      if (err) {
-  //        console.error("get twin message error");
-  //        return;
-  //      }
-  //      config.interval = twin.properties.desired.interval || config.interval;
-  //    });
-  //  }, config.interval);
-  //  sendMessage();
-  //});
+    // set C2D and device method callback
+    client.onDeviceMethod('start', onStart);
+    client.onDeviceMethod('stop', onStop);
+    client.on('message', receiveMessageCallback);
+    setInterval(() => {
+      client.getTwin((err, twin) => {
+        if (err) {
+          console.error("get twin message error");
+          return;
+        }
+        config.interval = twin.properties.desired.interval || config.interval;
+      });
+    }, config.interval);
+    sendMessage();
+  });
 })(process.argv[2]);
