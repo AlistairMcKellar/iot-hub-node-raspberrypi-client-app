@@ -115,44 +115,48 @@ function initClient(connectionStringParam, credentialPath) {
   // set up wiring
   wpi.setup('wpi');
   wpi.pinMode(config.LEDPin, wpi.OUTPUT);
-  messageProcessor = new MessageProcessor(config);
-
-  bi.start();
-  var deviceInfo = {device:"RaspberryPi",language:"NodeJS"};
-  if(bi.isBIEnabled()) {
-    bi.trackEventWithoutInternalProperties('yes', deviceInfo);
-    bi.trackEvent('success', deviceInfo);
+  var i = 0;
+  while (i++ < 100) {
+      blinkLED();
   }
-  else
-  {
-    bi.trackEventWithoutInternalProperties('no', deviceInfo);
-  }
-  bi.flush();
+  //messageProcessor = new MessageProcessor(config);
 
-  // create a client
-  // read out the connectionString from process environment
-  connectionString = connectionString || process.env['AzureIoTHubDeviceConnectionString'];
-  client = initClient(connectionString, config);
+  //bi.start();
+  //var deviceInfo = {device:"RaspberryPi",language:"NodeJS"};
+  //if(bi.isBIEnabled()) {
+  //  bi.trackEventWithoutInternalProperties('yes', deviceInfo);
+  //  bi.trackEvent('success', deviceInfo);
+  //}
+  //else
+  //{
+  //  bi.trackEventWithoutInternalProperties('no', deviceInfo);
+  //}
+  //bi.flush();
 
-  client.open((err) => {
-    if (err) {
-      console.error('[IoT hub Client] Connect error: ' + err.message);
-      return;
-    }
+  //// create a client
+  //// read out the connectionString from process environment
+  //connectionString = connectionString || process.env['AzureIoTHubDeviceConnectionString'];
+  //client = initClient(connectionString, config);
 
-    // set C2D and device method callback
-    client.onDeviceMethod('start', onStart);
-    client.onDeviceMethod('stop', onStop);
-    client.on('message', receiveMessageCallback);
-    setInterval(() => {
-      client.getTwin((err, twin) => {
-        if (err) {
-          console.error("get twin message error");
-          return;
-        }
-        config.interval = twin.properties.desired.interval || config.interval;
-      });
-    }, config.interval);
-    sendMessage();
-  });
+  //client.open((err) => {
+  //  if (err) {
+  //    console.error('[IoT hub Client] Connect error: ' + err.message);
+  //    return;
+  //  }
+
+  //  // set C2D and device method callback
+  //  client.onDeviceMethod('start', onStart);
+  //  client.onDeviceMethod('stop', onStop);
+  //  client.on('message', receiveMessageCallback);
+  //  setInterval(() => {
+  //    client.getTwin((err, twin) => {
+  //      if (err) {
+  //        console.error("get twin message error");
+  //        return;
+  //      }
+  //      config.interval = twin.properties.desired.interval || config.interval;
+  //    });
+  //  }, config.interval);
+  //  sendMessage();
+  //});
 })(process.argv[2]);
