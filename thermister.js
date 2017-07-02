@@ -21,32 +21,29 @@ Sensor.prototype.init = function (callback) {
 }
 
 Sensor.prototype.read = function (callback) {
-    this.readTempC()
-        .then((data) => {
-            data.temperature = data;
-            callback(null, data);
-        })
-        .catch(callback);
+    var temp = this.readTempC();
+    callback(null, temp);
 }
 
 Sensor.prototype.discharge = function () {
     this.wpi.pinMode(this.thermPin, wpi.INPUT);
     this.wpi.pinMode(this.capPin, wpi.OUTPUT);
     this.wpi.digitalWrite(this.capPin, 0);
-    sleep.msleep(100);
+    this.wpi.delay(100);
 }
 
 Sensor.prototype.chargeTime = function () {
     this.wpi.pinMode(this.thermPin, wpi.OUTPUT);
     this.wpi.pinMode(this.capPin, wpi.INPUT);
+    console.log("pin status: " + this.wpi.digitalRead(this.capPin));
+
     this.wpi.digitalWrite(this.thermPin, 1);
-    var t1 = Date.now() / 1000;
+    var t1 = Date.now();
     while (!this.wpi.digitalRead(this.capPin)) {
-        console.log("looping");
-        continue;
+        console.log("looping: " + this.wpi.digitalRead(this.capPin));
     }
-    var t2 = Date.now() / 1000;
-    var result = (t2 - t1) * 1000000;
+    var t2 = Date.now();
+    var result = (t2 - t1) * 1000;
     console.log("chargetime: " + result);
     return result;
 }
