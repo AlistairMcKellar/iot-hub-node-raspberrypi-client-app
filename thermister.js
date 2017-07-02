@@ -12,9 +12,7 @@ const sleep = require('sleep');
 function Sensor(options) {
     wpi.setup('wpi');
     this.thermPin = options.ThermPin; //a pin
-    console.log(this.thermPin);
     this.capPin = options.CapPin; //b pin
-    console.log(this.capPin);
 }
 
 Sensor.prototype.init = function (callback) {
