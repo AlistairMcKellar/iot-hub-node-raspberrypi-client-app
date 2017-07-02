@@ -7,7 +7,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const wpi = require('wiring-pi');
+// wiring-pi is not upto date with wiring and kernel verions
+const wpi = require('wiringpi-node');
 
 const Client = require('azure-iot-device').Client;
 const ConnectionString = require('azure-iot-device').ConnectionString;
@@ -33,7 +34,7 @@ function sendMessage() {
       if (err) {
         console.error('Failed to send message to Azure IoT Hub');
       } else {
-        blinkLED();
+        // blinkLED();
         console.log('Message sent to Azure IoT Hub');
       }
       setTimeout(sendMessage, config.interval);
@@ -64,7 +65,7 @@ function onStop(request, response) {
 }
 
 function receiveMessageCallback(msg) {
-  blinkLED();
+  //blinkLED();
   var message = msg.getData().toString('utf-8');
   client.complete(msg, () => {
     console.log('Receive message: ' + message);
@@ -115,7 +116,7 @@ function initClient(connectionStringParam, credentialPath) {
   // set up wiring
   wpi.setup('wpi');
   wpi.pinMode(config.LEDPin, wpi.OUTPUT);
-  messageProcessor = new MessageProcessor(config);
+  messageProcessor = new MessageProcessor(config, wpi);
 
   bi.start();
   var deviceInfo = {device:"RaspberryPi",language:"NodeJS"};
