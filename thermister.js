@@ -42,13 +42,13 @@ Sensor.prototype.chargeTime = function () {
     wpi.digitalWrite(this.thermPin, 1);
     console.log("pin status: " + wpi.digitalRead(this.capPin));
 
-    var t1 = Date.now();
+    var t1 = Date.now() / 1000;
     console.log('t1: ' + t1);
     while (!wpi.digitalRead(this.capPin)) {
     }
-    var t2 = Date.now();
+    var t2 = Date.now() / 1000;
     console.log('t2: ' + t2);
-    var result = (t2 - t1) * 1000;
+    var result = (t2 - t1) * 1000000;
     console.log("chargetime: " + result);
     return result;
 }
