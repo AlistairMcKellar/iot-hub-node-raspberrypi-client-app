@@ -1,6 +1,6 @@
 {
   "simulatedData": false,
-  "interval": 2000,
+  "interval": 28000,
   "deviceId": "PiTemp",
   "LEDPin": 7,
   "messageMax": 256,

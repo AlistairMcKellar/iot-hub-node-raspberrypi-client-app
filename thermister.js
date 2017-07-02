@@ -54,12 +54,10 @@ Sensor.prototype.analogRead = function () {
 
 Sensor.prototype.readResistance = function () {
     var n = 100;
-    var total = 0;
-    var loopstart = Date.now();
+    var total = 0;    
     for (var i = 0; i < n; i++) {
         total += this.analogRead();
     }
-    console.log("loopTime: " + (loopstart - Date.now()));
     var t = total / n;
     var bigT = t * 0.632 * 3.3;
     var r = (bigT / C) - R1;
