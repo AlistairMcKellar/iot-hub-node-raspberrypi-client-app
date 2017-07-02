@@ -29,7 +29,7 @@ Sensor.prototype.discharge = function () {
     wpi.pinMode(this.thermPin, wpi.INPUT);
     wpi.pinMode(this.capPin, wpi.OUTPUT);
     wpi.digitalWrite(this.capPin, 0);
-    wpi.delay(100);
+    wpi.delay(10);
 }
 
 Sensor.prototype.chargeTime = function () {
