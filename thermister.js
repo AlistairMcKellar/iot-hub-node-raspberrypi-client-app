@@ -28,7 +28,6 @@ Sensor.prototype.read = function (callback) {
 }
 
 Sensor.prototype.discharge = function () {
-    console.log("discharge");
     wpi.pinMode(this.thermPin, wpi.INPUT);
     wpi.pinMode(this.capPin, wpi.OUTPUT);
     wpi.digitalWrite(this.capPin, 0);
@@ -38,18 +37,13 @@ Sensor.prototype.discharge = function () {
 Sensor.prototype.chargeTime = function () {
     wpi.pinMode(this.thermPin, wpi.OUTPUT);
     wpi.pinMode(this.capPin, wpi.INPUT);
-    console.log("pin status: " + wpi.digitalRead(this.capPin));
     wpi.digitalWrite(this.thermPin, 1);
-    console.log("pin status: " + wpi.digitalRead(this.capPin));
 
     var t1 = Date.now() / 1000;
-    console.log('t1: ' + t1);
     while (!wpi.digitalRead(this.capPin)) {
     }
     var t2 = Date.now() / 1000;
-    console.log('t2: ' + t2);
     var result = (t2 - t1) * 1000000;
-    console.log("chargetime: " + result);
     return result;
 }
 
@@ -66,7 +60,6 @@ Sensor.prototype.readResistance = function () {
     for (var i = 0; i < n; i++) {
         total += this.analogRead();
     }
-    console.log("total: " + total); 
     var t = total / n;
     var bigT = t * 0.632 * 3.3;
     var r = (bigT / C) - R1;
@@ -75,9 +68,11 @@ Sensor.prototype.readResistance = function () {
 
 Sensor.prototype.readTempC = function () {
     var R = this.readResistance();
+    console.log("resistance: " + R);
     var t0 = 273.15;
     var t25 = t0 + 25.0;
     var invT = 1 / t25 + 1 / B * Math.log(R / R0);
+    console.log("invT: " + invT);
     var T = (1 / invT - t0);
     console.log("temp: " + T);
     return T;
