@@ -12,7 +12,6 @@
     "azure-iot-device-mqtt": "1.1.7",
     "bme280-sensor": "^0.1.6",
     "sleep": "^5.1.1",
-    "wiring-pi": ">=2.1.1",
     "wiringpi-node": "^2.4.4"
   },
   "license": "MIT",

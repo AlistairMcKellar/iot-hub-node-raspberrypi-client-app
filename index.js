@@ -116,7 +116,7 @@ function initClient(connectionStringParam, credentialPath) {
   // set up wiring
   wpi.setup('wpi');
   wpi.pinMode(config.LEDPin, wpi.OUTPUT);
-  messageProcessor = new MessageProcessor(config, wpi);
+  messageProcessor = new MessageProcessor(config);
 
   bi.start();
   var deviceInfo = {device:"RaspberryPi",language:"NodeJS"};

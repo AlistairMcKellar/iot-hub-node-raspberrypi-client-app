@@ -12,9 +12,9 @@ const sleep = require('sleep');
 function Sensor(options, wpi) {
     wpi.setup('wpi');
     this.thermPin = options.ThermPin; //a pin
-    print(this.thermPin);
+    console.log(this.thermPin);
     this.capPin = options.CapPin; //b pin
-    print(this.capPin);
+    console.log(this.capPin);
 }
 
 Sensor.prototype.init = function (callback) {
@@ -42,10 +42,12 @@ Sensor.prototype.chargeTime = function () {
     console.log("pin status: " + wpi.digitalRead(this.capPin));
 
     var t1 = Date.now();
+    console.log('t1: ' + t1);
     while (!wpi.digitalRead(this.capPin)) {
         console.log("looping: " + wpi.digitalRead(this.capPin));
     }
     var t2 = Date.now();
+    console.log('t2: ' + t2);
     var result = (t2 - t1) * 1000;
     console.log("chargetime: " + result);
     return result;

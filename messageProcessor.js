@@ -6,12 +6,12 @@
 const Thermister = require('./thermister.js');
 const SimulatedSensor = require('./simulatedSensor.js');
 
-function MessageProcessor(option, wpi) {
+function MessageProcessor(option) {
   option = Object.assign({
     deviceId: '[Unknown device] node',
     temperatureAlert: 30
   }, option);
-  this.sensor = option.simulatedData ? new SimulatedSensor() : new Thermister(option.i2cOption, wpi);
+  this.sensor = option.simulatedData ? new SimulatedSensor() : new Thermister(option.i2cOption);
   this.deviceId = option.deviceId;
   this.temperatureAlert = option.temperatureAlert
   this.sensor.init(() => {
