@@ -22,7 +22,7 @@ Sensor.prototype.init = function (callback) {
 
 Sensor.prototype.read = function (callback) {
     var temp = this.readTempC();
-    callback(null, temp);
+    callback(null, { temperature : temp});
 }
 
 Sensor.prototype.discharge = function () {
@@ -55,9 +55,11 @@ Sensor.prototype.analogRead = function () {
 Sensor.prototype.readResistance = function () {
     var n = 100;
     var total = 0;
+    var loopstart = Date.now();
     for (var i = 0; i < n; i++) {
         total += this.analogRead();
     }
+    console.log("loopTime: " + (loopstart - Date.now()));
     var t = total / n;
     var bigT = t * 0.632 * 3.3;
     var r = (bigT / C) - R1;
@@ -69,9 +71,7 @@ Sensor.prototype.readTempC = function () {
     var t0 = 273.15;
     var t25 = t0 + 25.0;
     var invT = 1 / t25 + 1 / B * Math.log(R / R0);
-    console.log("invT: " + invT);
     var T = (1 / invT - t0);
-    console.log("temp: " + T);
     return T;
 }
 
