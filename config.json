@@ -1,7 +1,7 @@
 {
   "simulatedData": false,
   "interval": 2000,
-  "deviceId": "Raspberry Pi Node",
+  "deviceId": "PiTemp",
   "LEDPin": 7,
   "messageMax": 256,
   "credentialPath": "~/.iot-hub",
