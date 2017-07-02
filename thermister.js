@@ -55,7 +55,7 @@ Sensor.prototype.analogRead = function () {
 }
 
 Sensor.prototype.readResistance = function () {
-    var n = 10;
+    var n = 100;
     var total = 0;
     for (var i = 0; i < n; i++) {
         total += this.analogRead();
@@ -68,7 +68,6 @@ Sensor.prototype.readResistance = function () {
 
 Sensor.prototype.readTempC = function () {
     var R = this.readResistance();
-    console.log("resistance: " + R);
     var t0 = 273.15;
     var t25 = t0 + 25.0;
     var invT = 1 / t25 + 1 / B * Math.log(R / R0);
