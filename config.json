@@ -7,9 +7,6 @@
   "credentialPath": "~/.iot-hub",
   "temperatureAlert": 30,
   "i2cOption": {
-    "pin": 9,
-    "i2cBusNo": 1,
-    "i2cAddress": 119,
     "ThermPin": 1,
     "CapPin": 4
   }

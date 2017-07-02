@@ -34,7 +34,7 @@ function sendMessage() {
       if (err) {
         console.error('Failed to send message to Azure IoT Hub');
       } else {
-        // blinkLED();
+        blinkLED();
         console.log('Message sent to Azure IoT Hub');
       }
       setTimeout(sendMessage, config.interval);
@@ -65,7 +65,7 @@ function onStop(request, response) {
 }
 
 function receiveMessageCallback(msg) {
-  //blinkLED();
+  blinkLED();
   var message = msg.getData().toString('utf-8');
   client.complete(msg, () => {
     console.log('Receive message: ' + message);
