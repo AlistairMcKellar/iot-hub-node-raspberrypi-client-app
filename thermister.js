@@ -9,7 +9,7 @@ const R0 = 1000.0;
 const wpi = require('wiringpi-node');
 const sleep = require('sleep');
 
-function Sensor(options, wpi) {
+function Sensor(options) {
     wpi.setup('wpi');
     this.thermPin = options.ThermPin; //a pin
     console.log(this.thermPin);
