@@ -30,14 +30,14 @@ function sendMessage() {
     messageProcessor.getMessage(messageId, (content, temperatureAlert) => {
         var message = new Message(content);
         message.properties.add('temperatureAlert', temperatureAlert ? 'true' : 'false');
-        console.log('Sending message: ' + content);
+        //console.log('Sending message: ' + content);
         client.sendEvent(message, (err) => {
             if (err) {
                 console.log(err.message);
                 console.error('Failed to send message to Azure IoT Hub');
             } else {
                 blinkLED();
-                console.log('Message sent to Azure IoT Hub');
+                //console.log('Message sent to Azure IoT Hub');
             }
             setTimeout(sendMessage, config.interval);
         });
@@ -70,7 +70,7 @@ function receiveMessageCallback(msg) {
     blinkLED();
     var message = msg.getData().toString('utf-8');
     client.complete(msg, () => {
-        console.log('Receive message: ' + message);
+        //console.log('Receive message: ' + message);
     });
 }
 
