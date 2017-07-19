@@ -37,7 +37,7 @@ function sendMessage() {
                 console.error('Failed to send message to Azure IoT Hub');
             } else {
                 blinkLED();
-                //console.log('Message sent to Azure IoT Hub');
+                console.log('Message sent to Azure IoT Hub');
             }
             setTimeout(sendMessage, config.interval);
         });
@@ -137,6 +137,6 @@ function initClient(connectionStringParam, credentialPath) {
         // set C2D and device method callback
         client.onDeviceMethod('start', onStart);
         client.onDeviceMethod('stop', onStop);
-        setInterval(sendMessage, config.interval);
+        sendMessage();
     });
 })(process.argv[2]);
