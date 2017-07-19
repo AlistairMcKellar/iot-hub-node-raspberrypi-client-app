@@ -66,14 +66,6 @@ function onStop(request, response) {
     });
 }
 
-function receiveMessageCallback(msg) {
-    blinkLED();
-    var message = msg.getData().toString('utf-8');
-    client.complete(msg, () => {
-        //console.log('Receive message: ' + message);
-    });
-}
-
 function blinkLED() {
     // Light up LED for 500 ms
     wpi.digitalWrite(config.LEDPin, 1);
@@ -145,7 +137,6 @@ function initClient(connectionStringParam, credentialPath) {
         // set C2D and device method callback
         client.onDeviceMethod('start', onStart);
         client.onDeviceMethod('stop', onStop);
-        client.on('message', receiveMessageCallback);
         setInterval(sendMessage, config.interval);
     });
 })(process.argv[2]);
