@@ -21,7 +21,12 @@ Sensor.prototype.init = function (callback) {
 }
 
 Sensor.prototype.read = function (callback) {
-    var temp = this.readTempC();
+    var n = 10;
+    var total = 0;
+    for (var i = 0; i < n; i++) {
+        total += this.readTempC();
+    }
+    var temp = total / n;
     callback(null, { temperature : temp});
 }
 
