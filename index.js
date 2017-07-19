@@ -146,16 +146,6 @@ function initClient(connectionStringParam, credentialPath) {
         client.onDeviceMethod('start', onStart);
         client.onDeviceMethod('stop', onStop);
         client.on('message', receiveMessageCallback);
-        setInterval(() => {
-            client.getTwin((err, twin) => {
-                if (err) {
-                    console.error(err.message);
-                    console.error("get twin message error");
-                    return;
-                }
-                config.interval = twin.properties.desired.interval || config.interval;
-            });
-        }, config.interval);
-        sendMessage();
+        setInterval(sendMessage, config.interval);
     });
 })(process.argv[2]);
